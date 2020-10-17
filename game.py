@@ -4,15 +4,154 @@ import time
 map1 = [
     ['x','x','x','x','x','x','x','x','x','x'],
     ['x',' ',' ',' ',' ',' ','x',' ','f','x'],
-    ['x',' ',' ',' ',' ',' ','x',' ',' ','x'],
-    ['x',' ',' ','x','x',' ','x',' ',' ','x'],
-    ['x',' ',' ','x','p',' ','x',' ',' ','x'],
-    ['x',' ',' ','x','x','x','x',' ',' ','x'],
+    ['x',' ',' ',' ','x',' ','x',' ',' ','x'],
+    ['x',' ',' ','x','x',' ','x',' ','p','x'],
+    ['x',' ',' ','x',' ',' ','x',' ',' ','x'],
+    ['x',' ','x','x','x','x','x',' ',' ','x'],
     ['x',' ',' ',' ',' ',' ','x',' ',' ','x'],
     ['x',' ',' ',' ',' ',' ','x',' ',' ','x'],
     ['x',' ',' ',' ',' ',' ',' ',' ',' ','x'],
     ['x','x','x','x','x','x','x','x','x','x'],
 ]
+
+map2 = [
+    ['x','x','x','x','x','x','x','x','x','x'],
+    ['x','p',' ',' ',' ',' ','x',' ','f','x'],
+    ['x',' ',' ',' ','x',' ','x',' ','x','x'],
+    ['x',' ',' ','x','x','x','x',' ',' ','x'],
+    ['x',' ',' ','x',' ',' ','x',' ',' ','x'],
+    ['x',' ','x','x','x',' ',' ',' ',' ','x'],
+    ['x',' ',' ','x',' ',' ','x',' ',' ','x'],
+    ['x',' ',' ','x',' ','x','x',' ',' ','x'],
+    ['x',' ',' ',' ',' ',' ','x',' ',' ','x'],
+    ['x','x','x','x','x','x','x','x','x','x'],
+]
+
+map3 = [
+    ['x','x','x','x','x','x','x','x','x','x'],
+    ['x',' ',' ',' ',' ',' ','x',' ','f','x'],
+    ['x',' ',' ',' ','x',' ','x',' ',' ','x'],
+    ['x',' ',' ','x','x',' ','x',' ',' ','x'],
+    ['x',' ',' ','x',' ','p','x',' ',' ','x'],
+    ['x',' ','x','x','x','x','x',' ',' ','x'],
+    ['x',' ','x',' ',' ',' ','x',' ',' ','x'],
+    ['x',' ','x',' ','x',' ','x',' ',' ','x'],
+    ['x',' ',' ',' ','x',' ',' ',' ',' ','x'],
+    ['x','x','x','x','x','x','x','x','x','x'],
+]
+
+
+#DECLARING VARIABLES OF THE PLAYER
+current_position = (4,4) #index from 0! #Y AXIS FIRST
+previous_position = (4,4) #previous position of the player
+level = 1 #which level are we on
+
+def find_player():
+    """
+    Find current position of the player.
+
+    Returns: 0 if it is sucessfully found, None otherwise
+    """
+    global current_position, previous_position
+    for row in range(0, len(map1)):
+        for column in range(0, len(map1[0])):
+            if map1[row][column] == 'p': #if this position is the player
+                current_position = (row, column)
+                previous_position = (row,column)
+                return 0 #exit from the function
+            
+
+def display_map():
+    """
+    Display the game map to the screen.
+    """
+    for row in range(0, len(map1)): #for all rows
+        for column in range(0, len(map1[0])): #for all column
+            print(map1[row][column], end='')
+        print()
+
+def move_player():
+    """
+    Handle moving player in different directions. If it collides with a wall then remain
+    at the same position otherwise move to the new position. Also check if we have reach the flag.
+
+    Returns: True if we have reached the flag. None otherwise.
+    """
+    global current_position #say that we want to refer to the one above!
+    if map1[current_position[0]][current_position[1]] == 'x':
+        print('we hit a wall!!')
+        current_position = previous_position
+    else:
+        if map1[current_position[0]][current_position[1]] == 'f':
+            map1[current_position[0]][current_position[1]] = 'p'
+            map1[previous_position[0]][previous_position[1]] = ' '
+            print('we made it!')
+            return True
+        map1[current_position[0]][current_position[1]] = 'p'
+        map1[previous_position[0]][previous_position[1]] = ' '
+
+
+option = input("Press 1 to play or press 2 for AI: ")
+if option == 1: #WE want to play the game
+    find_player()
+    while True: #it's not game over yet
+        display_map()
+        move = input() #get user movement
+        finish = False #we haven't win the ggame yet
+        if move == 'w': #MOVE FORWARD
+            previous_position = current_position
+            current_position = (current_position[0] - 1, current_position[1])
+            finish = move_player()
+        elif move == 's': #MOVE DOWN
+            previous_position = current_position
+            current_position = (current_position[0] + 1, current_position[1])
+            finish = move_player()
+        elif move == 'a': #MOVE LEFT
+            previous_position = current_position
+            current_position = (current_position[0], current_position[1] - 1)
+            finish = move_player()
+        elif move == 'd': #MOVE RIGHT
+            previous_position = current_position
+            current_position = (current_position[0], current_position[1] + 1)
+            finish = move_player()
+        else: #ERROR
+            print('invalid key!')
+
+        if finish == True: #we have finished this level move on to the next level otherwise end the program
+            level += 1
+            if level == 2:
+                map1 = map2
+            elif level == 3:
+                map1 = map3
+            else:
+                break
+            find_player()
+else: #AI mode
+    print('AI is playing....') 
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -88,14 +227,14 @@ class Tree1:
 
        
 #USER PLAY MODE       
-##root = Tree(map1, (4,4))
-##root.display_map()
-##while True:
-##    move = input()
-##    if root.move_player(move):
-##        root.display_map()
-##        break
-##    root.display_map()
+# root = Tree1(map1, (4,4))
+# root.display_map()
+# while True:
+#    move = input()
+#    if root.move_player(move):
+#        root.display_map()
+#        break
+#    root.display_map()
 
 
 
