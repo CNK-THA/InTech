@@ -6,28 +6,60 @@ app.config["DEBUG"] = True
 
 # https://programminghistorian.org/en/lessons/creating-apis-with-python-and-flask
 
-data = []
+products = {"Apple": 5, "Pear": 5, "Hand bag": 20, "Shoe":10, "Toothbrush": 5, "iphone": 100, "ipad": 70, "laptop": 200}
+accounts = {}
+credits = {}
 
-@app.route('/', methods=['GET'])
-def home():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+EXISTING_CUSTOMER = '-1'
+WRONG_CREDENTIAL = '-2'
+SUCCESS = '0'
+NO_PRODUCT_FOUND = '-3'
 
-@app.route('/delete', methods=['GET'])
-def delete_record():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+# @app.route('/', methods=['GET'])
+# def home():
+#     return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
 
-@app.route('/find', methods=['GET'])
-def find_record():
-    return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+@app.route('/register', methods=['POST'])
+def new_user():
+    if accounts.get(request.form['username']) is None:
+        accounts[request.form['username']] = request.form['password']
+        credits[request.form['username']] = 0
+        return SUCCESS
+    return EXISTING_CUSTOMER
 
-@app.route('/add', methods=['GET'])
-def add_record():
-    return "<h1>THIS IS A TEST</h1>"
+@app.route('/login', methods=['POST'])
+def login():
+    if accounts.get(request.form['username']) is None or accounts.get(request.form['username']) != request.form['password']:
+        return WRONG_CREDENTIAL
+    return SUCCESS
 
-@app.route('/status', methods=['GET'])
-def get_record_status():
-    print(request.args, 'this is the data')
-    print(request)
-    return str(data)
+@app.route('/add_credit', methods=['POST'])
+def add_credit():
+    balance = credits.get(request.form['cookie'])
+    balance += int(request.form['amount'])
+    credits[request.form['cookie']] = balance
+    return "Credit added, your balance is: " + str(balance)
+
+@app.route('/profile', methods=['POST'])
+def view_profile():
+    return "You are signed in as " + request.form['cookie'] + " with credit balance of " + str(credits.get(request.form['cookie']))
+
+@app.route('/buy', methods=['POST'])
+def buy_product():
+    if products.get(request.form['product']) is None:
+        return "ERROR: Product not found"
+    if products.get(request.form['product']) > credits.get(request.form['cookie']):
+        return "ERROR: Insufficient funds"
+    balance = credits.get(request.form['cookie'])
+    balance -= products.get(request.form['product'])
+    credits[request.form['cookie']] = balance
+    return "Item purchased, your balance is: " + str(balance)
+
+@app.route('/list', methods=['GET'])
+def list_all_products():
+    output = ''
+    for element in products.keys():
+        output += element + " : " + str(products.get(element)) + "\n"
+    return output
 
 app.run()
