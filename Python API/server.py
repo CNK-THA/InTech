@@ -3,7 +3,7 @@ from flask import request, jsonify, render_template
 
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 # https://programminghistorian.org/en/lessons/creating-apis-with-python-and-flask
 
@@ -71,4 +71,4 @@ def list_all_products():
         output += element + " : " + str(products.get(element)) + "\n"
     return output
 
-app.run()
+app.run(host = '0.0.0.0')
