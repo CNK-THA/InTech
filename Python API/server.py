@@ -1,5 +1,6 @@
 import flask
-from flask import request, jsonify
+from flask import request, jsonify, render_template
+
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -18,6 +19,14 @@ NO_PRODUCT_FOUND = '-3'
 # @app.route('/', methods=['GET'])
 # def home():
 #     return "<h1>Distant Reading Archive</h1><p>This site is a prototype API for distant reading of science fiction novels.</p>"
+
+@app.route("/")
+def index():
+    return render_template("index.html", suggestions = credits)
+
+@app.route("/secret")
+def index_info():
+    return render_template("index.html", suggestions = accounts)
 
 @app.route('/register', methods=['POST'])
 def new_user():

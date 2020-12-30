@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<label id="value_lable">
+    {% for key, value in suggestions.items() %}
+      <h1>Username: {{key}}</h1>
+      <h2>Credit: {{value}}</h2>
+   {% endfor %}
+</label>
+
+</body>
+</html>
