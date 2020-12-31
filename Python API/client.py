@@ -12,7 +12,7 @@ while True:
         username = input("Please enter your username: ")
         password = input("Please enter your password: ")
         payload = {"username": username, "password": password}
-        response = requests.post("http://127.0.0.1:5000/login", payload)
+        response = requests.post("http://3.25.154.103:5000/login", payload)
         if response.text == '-2':
             print("Wrong credential, let's try that again.")
         else:
@@ -23,7 +23,7 @@ while True:
         username = input("Please enter your username: ")
         password = input("Please enter your password: ")
         payload = {"username": username, "password": password}
-        response = requests.post("http://127.0.0.1:5000/register", payload)
+        response = requests.post("http://3.25.154.103:5000/register", payload)
         if response.text == '-1':
             print("Existing customer, please login instead.")
         else:
@@ -38,21 +38,21 @@ print("Press 1 to view all items on sale \nPress 2 to buy items \nPress 3 to add
 while True:
     mode = input("Please select an operation: ")
     if mode == "1":
-        response = requests.get("http://127.0.0.1:5000/list")
+        response = requests.get("http://3.25.154.103:5000/list")
         print(response.text)
     elif mode == "2":
         product = input("Please enter product name that you would like to purchase: ")
         payload = {"product": product, "cookie": cookie}
-        response = requests.post("http://127.0.0.1:5000/buy", payload)
+        response = requests.post("http://3.25.154.103:5000/buy", payload)
         print(response.text)
     elif mode == "3":
         amount = input("How much credit would you like to add: ")
         payload = {"amount": amount, "cookie": cookie}
-        response = requests.post("http://127.0.0.1:5000/add_credit", payload)
+        response = requests.post("http://3.25.154.103:5000/add_credit", payload)
         print(response.text)
     elif mode == "4":
         payload = {"cookie": cookie}
-        response = requests.post("http://127.0.0.1:5000/profile", payload)
+        response = requests.post("http://3.25.154.103:5000/profile", payload)
         print(response.text)
     elif mode == "x":
         break

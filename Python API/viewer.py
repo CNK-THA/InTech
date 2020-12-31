@@ -7,7 +7,7 @@ import webbrowser
 
 
 while True:
-    response = requests.get("http://127.0.0.1:5000/")
+    response = requests.get("https://13.210.116.73:5000/")
     path = os.path.abspath('temp.html')
     url = 'file://' + path
     with open(path, 'w') as f:
