@@ -12,10 +12,12 @@ credits = {} # dictionary mapping between username and account's credit (money) 
 
 @app.route('/register', methods=['POST'])
 def new_user():
+    pass # remove this!
     # Code for registering new users goes here
 
 @app.route('/login', methods=['POST'])
 def login():
+    pass # remove this!
     # code for logging user in goes here
 
 
