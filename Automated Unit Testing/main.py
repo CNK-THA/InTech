@@ -1,21 +1,5 @@
 import unittest
 
-class Test(unittest.TestCase): # This can be any name!!
-    def testcase1(self): # This can be any name!!
-        # using self.assertXXXX() write:
-        # - assign the value 80 to variable called "a", test that a is equal to 80
-        # - assign the value "testing" to variable "b", test that b is not equal to a
-        # - assign the array [1,2,3,4] to variable "c" and [2,3,4] to variable "d"
-        #       test that c is not equal to d
-        # - test that second element of c is equal to first element of d
-        # - test that last element of c is equal to last element of d
-        # - assign the array [1,2,3,4] to variable "e", test that c is equal to e
-        pass
-# unittest.main()
-
-
-
-
 
 def sum(array):
     """
@@ -25,10 +9,9 @@ def sum(array):
     """
 
     sumValue = 0
-    for element in range(1,len(array)+1):
-        sumValue += element
+    for element in range(0,len(array)): 
+        sumValue += array[element]
     return sumValue
-
 
 def calculateTax(income):
     """
@@ -43,16 +26,51 @@ def calculateTax(income):
     Output: return the amount of tax needs to be paid
     """
 
-    if income > 0 and income < 10000:
+    if (income > 0 and income <= 10000) or (income <= 0):
         return 0
-    elif income > 10000 and income < 40000:
+    elif income > 10000 and income <= 40000:
         return 0.05 * income
-    elif income > 40000 and income < 70000:
+    elif income > 40000 and income <= 50000:
         return 0.1 * income
-    elif income > 70000 and income < 100000:
+    elif income > 50000 and income <= 70000:
         return 0.15 * income
     else:
         return 0.2 * income
+
+class Test(unittest.TestCase): # This can be any name!!
+    def testcase1(self): # This can be any name!!
+        self.assertEquals(sum([1,3,5,7]), 16)
+        # self.assertTrue(sum([1,3,5,7]) == 16)
+        # self.assertFalse(sum([1,3,5,7]) != 16)
+
+        self.assertEquals(sum([2,4,6,8]), 20)
+        self.assertEquals(sum([10,50,30,10]), 100)
+
+
+
+
+
+
+
+        self.assertTrue(calculateTax(5000) == 0)
+        self.assertEquals(calculateTax(10000), 0)
+        self.assertTrue(calculateTax(17000) == 850)
+        self.assertEquals(calculateTax(40000), 2000)
+        self.assertEquals(calculateTax(-1000), 0)
+        self.assertTrue(calculateTax(0) == 0)
+        self.assertTrue(calculateTax(-40000) == 0)
+
+
+unittest.main()
+
+
+
+
+
+
+
+
+
 
 
 # with open("output.txt", "w") as file:
@@ -62,30 +80,30 @@ def calculateTax(income):
 #         file.write(str(i))
 #         file.write("\n")
 
-import random
+# import random
 
-with open("output2.txt", "w") as file:
-    for i in range(0,99999):
-        out = []
-        if i == 48563 or i == 28493:
-            for i in range(0,6):
-                out.append(random.randint(0,100))
-        elif i == 193:
-            for i in range(0,3):
-                out.append(random.randint(101,200))
-        elif i == 1928 or i == 93855:
-            for i in range(0, 5):
-                out.append(random.randint(101,200))
-        else:
-            for i in range(0,5):
-                out.append(random.randint(0,100))
+# with open("output2.txt", "w") as file:
+#     for i in range(0,99999):
+#         out = []
+#         if i == 48563 or i == 28493:
+#             for i in range(0,6):
+#                 out.append(random.randint(0,100))
+#         elif i == 193:
+#             for i in range(0,3):
+#                 out.append(random.randint(101,200))
+#         elif i == 1928 or i == 93855:
+#             for i in range(0, 5):
+#                 out.append(random.randint(101,200))
+#         else:
+#             for i in range(0,5):
+#                 out.append(random.randint(0,100))
         
-        for i in range(0,len(out)):
-            file.write(str(out[i]))
-            if i == len(out) - 1:
-                file.write("\n")
-            else:
-                file.write(",")
+#         for i in range(0,len(out)):
+#             file.write(str(out[i]))
+#             if i == len(out) - 1:
+#                 file.write("\n")
+#             else:
+#                 file.write(",")
     
         
 # print(count)
